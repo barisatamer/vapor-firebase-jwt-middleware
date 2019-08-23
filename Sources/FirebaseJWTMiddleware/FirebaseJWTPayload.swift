@@ -1,5 +1,5 @@
 //
-//  GoogleJWTPayload.swift
+//  FirebaseJWTPayload.swift
 //  FirebaseJWTMiddleware
 //
 //  Created by Baris Atamer on 23.08.19.
@@ -7,12 +7,23 @@
 
 import JWT
 
-struct AccessTokenPayload: JWTPayload {
+struct FirebaseJWTPayload: JWTPayload {
     var issuer: IssuerClaim
     var issuedAt: IssuedAtClaim
     var expirationAt: ExpirationClaim
     var email: String
     var userID: String
+    
+    var picture: String?
+    var name: String?
+    var authTime: String?
+    var isEmailVerified: Bool?
+    
+//    var firebase: Firebase?
+//    struct Firebase: Codable {
+//        var signInProvider: String?
+//    }
+
     
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
@@ -20,6 +31,12 @@ struct AccessTokenPayload: JWTPayload {
         case expirationAt = "exp"
         case email = "email"
         case userID = "user_id"
+        
+        case picture = "picture"
+        case name = "name"
+        case authTime = "auth_time"
+        case isEmailVerified = "email_verified"
+        // case firebase = "firebase"
     }
     
     init(
@@ -37,7 +54,7 @@ struct AccessTokenPayload: JWTPayload {
     }
     
     func verify(using signer: JWTSigner) throws {
-        guard self.issuer.value == "https://securetoken.google.com/phrase-book-vapor" else {
+        guard self.issuer.value == FirebaseJWTMiddlewareConfig.shared.issuer else {
             throw JWTError.verificationFailed
         }
         
