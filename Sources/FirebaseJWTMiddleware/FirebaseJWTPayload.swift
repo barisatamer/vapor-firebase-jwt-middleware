@@ -31,20 +31,6 @@ struct FirebaseJWTPayload: JWTPayload {
         case isEmailVerified = "email_verified"
     }
     
-    init(
-        issuer: String,
-        issuedAt: Date = Date(),
-        expirationAt: Date = Date().addingTimeInterval(JWTConfig.expirationTime),
-        email: String = "",
-        userID: String = ""
-        ) {
-        self.issuer = IssuerClaim(value: issuer)
-        self.issuedAt = IssuedAtClaim(value: issuedAt)
-        self.expirationAt = ExpirationClaim(value: expirationAt)
-        self.email = email
-        self.userID = userID
-    }
-    
     func verify(using signer: JWTSigner) throws {
         guard self.issuer.value == FirebaseJWTMiddlewareConfig.shared.issuer else {
             throw JWTError.verificationFailed
