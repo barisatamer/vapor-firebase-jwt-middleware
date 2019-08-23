@@ -16,14 +16,8 @@ struct FirebaseJWTPayload: JWTPayload {
     
     var picture: String?
     var name: String?
-    var authTime: String?
+    var authTime: Date?
     var isEmailVerified: Bool?
-    
-//    var firebase: Firebase?
-//    struct Firebase: Codable {
-//        var signInProvider: String?
-//    }
-
     
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
@@ -31,12 +25,10 @@ struct FirebaseJWTPayload: JWTPayload {
         case expirationAt = "exp"
         case email = "email"
         case userID = "user_id"
-        
         case picture = "picture"
         case name = "name"
         case authTime = "auth_time"
         case isEmailVerified = "email_verified"
-        // case firebase = "firebase"
     }
     
     init(
@@ -57,7 +49,6 @@ struct FirebaseJWTPayload: JWTPayload {
         guard self.issuer.value == FirebaseJWTMiddlewareConfig.shared.issuer else {
             throw JWTError.verificationFailed
         }
-        
         try self.expirationAt.verifyNotExpired()
     }
 }
