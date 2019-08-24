@@ -18,36 +18,35 @@ To include it in your package, add the following to your `Package.swift` file.
 
 ```swift
 let package = Package(
-name: "Project",
-dependencies: [
-...
-.package(url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", from: "0.0.6_alpha"),
-],
-targets: [
-.target(name: "App", dependencies: ["FirebaseJWTMiddleware", ... ])
-]
-)
-
+    name: "Project",
+    dependencies: [
+        ...
+        .package(url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", from: "0.0.6_alpha"),
+        ],
+        targets: [
+            .target(name: "App", dependencies: ["FirebaseJWTMiddleware", ... ])
+        ]
+    )
 ```
 
 ## Usage 🚀
 1. **Configure Project ID**
 ```swift
 FirebaseJWTMiddlewareConfig.configure(
-issuer: "https://securetoken.google.com/{PROJECT_ID}"
+    issuer: "https://securetoken.google.com/{PROJECT_ID}"
 )
 ```
 2. **Import header files**
 
 ```swift
-import FirebaseJWTMiddleware
+    import FirebaseJWTMiddleware
 ```
 
 3. **Adding Middleware to a Routing Group**
 ```Swift
 let group = router.grouped(FirebaseJWTMiddleware())
-group.get("welcome") { req in
-return "hello,world !"
+    group.get("welcome") { req in
+    return "hello,world !"
 }
 ```
 
