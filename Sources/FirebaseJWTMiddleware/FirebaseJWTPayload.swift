@@ -7,17 +7,17 @@
 
 import JWT
 
-struct FirebaseJWTPayload: JWTPayload {
+public struct FirebaseJWTPayload: JWTPayload {
     var issuer: IssuerClaim
     var issuedAt: IssuedAtClaim
     var expirationAt: ExpirationClaim
-    var email: String
-    var userID: String
+    public var email: String
+    public var userID: String
     
-    var picture: String?
-    var name: String?
-    var authTime: Date?
-    var isEmailVerified: Bool?
+    public var picture: String?
+    public var name: String?
+    public var authTime: Date?
+    public var isEmailVerified: Bool?
     
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
@@ -31,7 +31,7 @@ struct FirebaseJWTPayload: JWTPayload {
         case isEmailVerified = "email_verified"
     }
     
-    func verify(using signer: JWTSigner) throws {
+    public func verify(using signer: JWTSigner) throws {
         guard self.issuer.value == FirebaseJWTMiddlewareConfig.shared.issuer else {
             throw JWTError.verificationFailed
         }

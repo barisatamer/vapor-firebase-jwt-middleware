@@ -8,9 +8,10 @@
 import JWT
 import Crypto
 
-class TokenVerifier {
+public class TokenVerifier {
     
-    class func verify(_ token: String) throws {
+    @discardableResult
+    public class func verify(_ token: String) throws -> FirebaseJWTPayload {
         let token = token.removeBearer()
         do {
             let certificates: [GoogleCertificate]? = try GoogleCertificateFetcher.fetch()
@@ -21,7 +22,8 @@ class TokenVerifier {
                     jwtSigners.use(signer, kid: googleCertificate.kid)
                 }
             })
-            let _ = try JWT<FirebaseJWTPayload>(from: token, verifiedUsing: jwtSigners)
+            let jwt = try JWT<FirebaseJWTPayload>(from: token, verifiedUsing: jwtSigners)
+            return jwt.payload
         } catch {
             throw JWTError.verificationFailed
         }
