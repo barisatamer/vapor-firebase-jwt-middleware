@@ -11,9 +11,9 @@ public struct FirebaseJWTPayload: JWTPayload {
     var issuer: IssuerClaim
     var issuedAt: IssuedAtClaim
     var expirationAt: ExpirationClaim
-    public var email: String
     public var userID: String
     
+    public var email: String?
     public var picture: String?
     public var name: String?
     public var authTime: Date?
