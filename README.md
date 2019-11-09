@@ -21,7 +21,7 @@ let package = Package(
     name: "Project",
     dependencies: [
         ...
-        .package(url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", from: "0.1.0"),
+        .package(url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", from: "0.1.2"),
         ],
         targets: [
             .target(name: "App", dependencies: ["FirebaseJWTMiddleware", ... ])
@@ -46,7 +46,7 @@ FirebaseJWTMiddlewareConfig.configure(
 ```Swift
 let group = router.grouped(FirebaseJWTMiddleware())
     group.get("welcome") { req in
-    return "hello,world !"
+    return "Hello, world!"
 }
 ```
 
