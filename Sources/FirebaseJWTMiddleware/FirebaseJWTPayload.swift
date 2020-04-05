@@ -8,17 +8,6 @@
 import JWT
 
 public struct FirebaseJWTPayload: JWTPayload {
-    var issuer: IssuerClaim
-    var issuedAt: IssuedAtClaim
-    var expirationAt: ExpirationClaim
-    public var userID: String
-    
-    public var email: String?
-    public var picture: String?
-    public var name: String?
-    public var authTime: Date?
-    public var isEmailVerified: Bool?
-    
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
         case subject = "sub"
@@ -32,6 +21,17 @@ public struct FirebaseJWTPayload: JWTPayload {
         case authTime = "auth_time"
         case isEmailVerified = "email_verified"
     }
+    
+    public let issuer: IssuerClaim
+    public let issuedAt: IssuedAtClaim
+    public let expirationAt: ExpirationClaim
+    public let userID: String
+    
+    public let email: String?
+    public let picture: String?
+    public let name: String?
+    public let authTime: Date?
+    public let isEmailVerified: Bool?
     
     /// The audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
     public let audience: AudienceClaim
