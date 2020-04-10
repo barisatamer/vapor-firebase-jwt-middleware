@@ -21,7 +21,7 @@ let package = Package(
     name: "Project",
     dependencies: [
         ...
-        .package(name: "FirebaseJWTMiddleware", url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", .branch("vapor4")),
+        .package(name: "FirebaseJWTMiddleware", url: "https://github.com/barisatamer/vapor-firebase-jwt-middleware.git", from: "1.0.0"),
         ],
         targets: [
             .target(name: "App", dependencies: [
@@ -40,14 +40,14 @@ app.firebaseJwt.applicationIdentifier = <YOUR_FIREBASE_PROJECT_ID>
 2. **Import header files**
 
 ```swift
-    import FirebaseJWTMiddleware
+import FirebaseJWTMiddleware
 ```
 
 3. **Adding Middleware to a Routing Group**
-```Swift
+```swift
 let group = router.grouped(FirebaseJWTMiddleware())
-    group.get("welcome") { req in
-    return "Hello, world!"
+group.get("welcome") { req in
+return "Hello, world!"
 }
 ```
 
