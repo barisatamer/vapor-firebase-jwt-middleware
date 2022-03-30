@@ -8,6 +8,7 @@
 import JWT
 
 public struct FirebaseJWTPayload: JWTPayload {
+    
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
         case subject = "sub"
