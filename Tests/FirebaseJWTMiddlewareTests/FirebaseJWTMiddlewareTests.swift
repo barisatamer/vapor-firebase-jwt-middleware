@@ -10,25 +10,25 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IjgzYTczOGUyMWI5MWNlMjRmNDM0ODBmZTZmZWU0MjU4Yzg0ZGI0
     static let applicationIdentifier: String = "phrase-book-vapor"
 
     func testFirebase() throws {
-//        // creates a new application for testing
-//        let app = Application(.testing)
-//        defer { app.shutdown() }
-//        
-//        app.firebaseJwt.applicationIdentifier = FirebaseJWTMiddlewareTests.applicationIdentifier
-//        
-//        app.get("test") { req async throws in
-//            req.firebaseJwt.verify().map {
-//                $0.email ?? "none"
-//            }
-//        }
-//        
-//        var headers = HTTPHeaders()
-//        headers.bearerAuthorization = .init(token: token)
-//        
-//        try app.test(.GET, "test", headers: headers) { res in
-//            print(res.body.string)
-//            XCTAssert(res.body.string == "brsatamer@gmail.com")
-//        }
+        // creates a new application for testing
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        
+        app.firebaseJwt.applicationIdentifier = FirebaseJWTMiddlewareTests.applicationIdentifier
+        
+        app.get("test") { req in
+            req.firebaseJwt.verify().map {
+                $0.email ?? "none"
+            }
+        }
+        
+        var headers = HTTPHeaders()
+        headers.bearerAuthorization = .init(token: token)
+        
+        try app.test(.GET, "test", headers: headers) { res in
+            print(res.body.string)
+            XCTAssert(res.body.string == "brsatamer@gmail.com")
+        }
     }
     
     static var allTests = [

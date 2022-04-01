@@ -18,11 +18,19 @@ extension Application {
         
         let application: Application
         
-        public func signers(on request: Request) async throws -> JWTSigners {
+        public func asyncSigners(on request: Request) async throws -> JWTSigners {
             let requests = try await jwks.get(on: request).get()
             let signers = JWTSigners()
             try signers.use(jwks: requests)
             return signers
+        }
+        
+        public func signers(on request: Request) -> EventLoopFuture<JWTSigners> {
+            self.jwks.get(on: request).flatMapThrowing {
+                let signers = JWTSigners()
+                try signers.use(jwks: $0)
+                return signers
+            }
         }
         
         public var jwks: EndpointCache<JWKS> {
