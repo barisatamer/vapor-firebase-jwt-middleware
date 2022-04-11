@@ -8,6 +8,7 @@
 import JWT
 
 public struct FirebaseJWTPayload: JWTPayload {
+    
     enum CodingKeys: String, CodingKey {
         case issuer = "iss"
         case subject = "sub"
@@ -21,6 +22,7 @@ public struct FirebaseJWTPayload: JWTPayload {
         case authTime = "auth_time"
         case isEmailVerified = "email_verified"
         case phoneNumber = "phone_number"
+        case firebase = "firebase"
     }
     
     /// Issuer. It must be "https://securetoken.google.com/<projectId>", where <projectId> is the same project ID used for aud
@@ -47,6 +49,7 @@ public struct FirebaseJWTPayload: JWTPayload {
     public let name: String?
     public let isEmailVerified: Bool?
     public let phoneNumber: String?
+    public let firebase: Firebase?
     
     public func verify(using signer: JWTSigner) throws {
         guard self.issuer.value.contains("securetoken.google.com") else {
@@ -60,3 +63,9 @@ public struct FirebaseJWTPayload: JWTPayload {
         try self.expirationAt.verifyNotExpired()
     }
 }
+
+public struct Firebase: Codable {
+    public let identities: [String: [String]]
+    public let sign_in_provider: String
+}
+

@@ -9,12 +9,21 @@ import Vapor
 import JWT
 
 extension Application {
+    
     public var firebaseJwt: FirebaseJWT {
         .init(application: self)
     }
     
     public struct FirebaseJWT {
+        
         let application: Application
+        
+        public func asyncSigners(on request: Request) async throws -> JWTSigners {
+            let requests = try await jwks.get(on: request).get()
+            let signers = JWTSigners()
+            try signers.use(jwks: requests)
+            return signers
+        }
         
         public func signers(on request: Request) -> EventLoopFuture<JWTSigners> {
             self.jwks.get(on: request).flatMapThrowing {
@@ -42,9 +51,11 @@ extension Application {
         }
 
         private final class Storage {
+            
             let jwks: EndpointCache<JWKS>
             var applicationIdentifier: String?
             var gSuiteDomainName: String?
+            
             init() {
                 self.jwks = .init(uri: "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com")
                 self.applicationIdentifier = nil
